@@ -75,7 +75,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     }
 
                   },
-                  child: Text( _onLastPage ? "finish" : "next")
+                  child: Text( _onLastPage ? "finish" : "next",)
                 ),
               ],
             )

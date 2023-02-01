@@ -9,7 +9,12 @@ class IntroPage1 extends StatelessWidget {
       color: Colors.limeAccent,
       child: const Center(
         child: Text(
-          "Page 1"
+          "Page 1",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            fontFamily: "Inter"
+          ),
         ),
       ),
     );
