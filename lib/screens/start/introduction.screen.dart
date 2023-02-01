@@ -52,7 +52,15 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 // dot indicators
                 SmoothPageIndicator(
                   controller: _controller, 
-                  count: 3
+                  count: 3,
+                  effect: const SlideEffect(
+                    spacing: 10,
+                    radius: 5,
+                    dotWidth: 10,
+                    dotHeight: 10,
+                    dotColor: Colors.blue,
+                    activeDotColor: Colors.grey
+                  ),
                 ),
 
                 // next / done
