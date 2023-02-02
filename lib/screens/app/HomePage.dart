@@ -21,6 +21,15 @@ class _HomePageState extends State<HomePage> {
     zoom: 10,
   );
 
+  static final Marker _kGooglePlexMarker = Marker(
+    markerId: const MarkerId("_kGooglePlex"),
+    infoWindow: const InfoWindow(
+      title: "Home"
+    ),
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+    position: const LatLng(46.4298523, 21.8240082)
+  );
+
   static const CameraPosition _kLake = CameraPosition(
       bearing: 192.8334901395799,
       target: LatLng(37.43296265331129, -122.08832357078792),
@@ -34,6 +43,9 @@ class _HomePageState extends State<HomePage> {
       body: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
+        markers: {
+          _kGooglePlexMarker
+        },
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
