@@ -41,6 +41,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    addMarkers();
+    super.initState();
+  }
+
+  addMarkers() {
     for (var marker in customMarkers) {
       markers.add(Marker(
         markerId: MarkerId("_${marker["title"]}kGooglrrePlex"),
@@ -84,8 +89,6 @@ class _HomePageState extends State<HomePage> {
         }
       ));
     }
-
-    super.initState();
   }
 
   static const CameraPosition _kLake = CameraPosition(
