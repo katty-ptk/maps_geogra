@@ -4,10 +4,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'dart:typed_data';
-
-import 'package:network_image_to_byte/network_image_to_byte.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -16,8 +12,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late GoogleMapController mapController; 
+
   // ignore: prefer_collection_literals
   Set<Marker> markers = Set();
+
+  final customMarkers = [
+    {
+      "title": "Timisoara", 
+      "lat": 45.7411191,
+      "lng": 21.1815705
+    },
+
+    {
+      "title": "Bucuresti", 
+      "lat": 44.4379269,
+      "lng": 26.0245983
+    }
+  ];
 
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
@@ -29,73 +41,51 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    addMarkers(const LatLng(46.1853782, 21.3114286), "Tucano");
-    super.initState();
-  }
-
-
-  addMarkers(LatLng latLng, String title) async {
-      final Uint8List customMarker = await networkImageToByte("https://static.thenounproject.com/png/2120976-200.png");
-
+    for (var marker in customMarkers) {
       markers.add(Marker(
-        markerId: MarkerId("_${title}kGooglrrePlex"),
+        markerId: MarkerId("_${marker["title"]}kGooglrrePlex"),
         infoWindow: InfoWindow(
-          title: title,
+          title: marker["title"].toString(),
           snippet: "this is a snippet"
         ),
-        icon: BitmapDescriptor.fromBytes(customMarker, size: const Size(3, 3)),
-        position: latLng,
+        // icon: BitmapDescriptor.fromBytes(customMarker, size: const Size(3, 3)),
+        icon: BitmapDescriptor.defaultMarker,
+        position: LatLng(marker["lat"] as double, marker["lng"] as double),
         onTap: () {
-          
+          showModalBottomSheet(
+            context: context, 
+            isScrollControlled: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(30)
+              )
+            ),
+            builder: (BuildContext context ) {
+              return DraggableScrollableSheet(
+                expand: false,
+                initialChildSize: 0.4,
+                minChildSize: 0.32,
+                maxChildSize: 0.9,
+                builder:(context, scrollController) =>
+                 SingleChildScrollView(
+                  controller: scrollController,
+                  child: Center(
+                    child: ElevatedButton(
+                      child: const Text("close"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+              );
+            }
+          );
         }
       ));
+    }
 
-      // timisoara
-      markers.add(Marker(
-        markerId: MarkerId("_${title}kGoroglePlex"),
-        infoWindow: const InfoWindow(
-          title: "Timisoara",
-          snippet: "this is a snippet"
-        ),
-        icon: BitmapDescriptor.fromBytes(customMarker),
-        position: const LatLng(45.7411191, 21.1815705),
-        onTap: () {
-          
-        }
-      ));
-
-      // oradea
-      markers.add(Marker(
-        markerId: MarkerId("_${title}kffGooglePlex"),
-        infoWindow: const InfoWindow(
-          title: "Oradea",
-          snippet: "this is a snippet"
-        ),
-        icon: BitmapDescriptor.fromBytes(customMarker),
-        position: const LatLng(47.0746904, 21.867405),
-        onTap: () {
-          
-        }
-      ));
-
-
-      // oradea
-      markers.add(Marker(
-        markerId: MarkerId("_${title}adkGooglePlex"),
-        infoWindow: const InfoWindow(
-          title: "Bucuresti",
-          snippet: "this is a snippet"
-        ),
-        icon: BitmapDescriptor.fromBytes(customMarker, size: const Size(0, 0)),
-        position: const LatLng(44.4379269, 26.0245983),
-        onTap: () {
-          
-        }
-      ));
-
-      setState(() {
-        // this "resets" the state
-      });
+    super.initState();
   }
 
   static const CameraPosition _kLake = CameraPosition(
@@ -113,6 +103,7 @@ class _HomePageState extends State<HomePage> {
         initialCameraPosition: _kGooglePlex,
         markers: markers,
         onMapCreated: (GoogleMapController controller) {
+          mapController = controller;
           _controller.complete(controller);
         },
       ),
