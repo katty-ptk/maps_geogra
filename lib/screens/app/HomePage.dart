@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_geogra/widgets/place_info.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,7 +22,14 @@ class _HomePageState extends State<HomePage> {
     {
       "title": "Timisoara", 
       "lat": 45.7411191,
-      "lng": 21.1815705
+      "lng": 21.1815705,
+      "images": [
+        'https://photographylife.com/wp-content/uploads/2017/01/What-is-landscape-photography.jpg',
+        'https://wallpaperaccess.com/full/112722.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqtsLWLiM91PPGRc_VZl92ciVVZ9UsYfuGSA&usqp=CAU',
+        'https://img.cdn-pictorem.com/uploads/collection/G/GC7DLF7KTE/900_fabartdesigns_198.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/2/21/Adams_The_Tetons_and_the_Snake_River.jpg'
+      ]
     },
 
     {
@@ -72,17 +80,7 @@ class _HomePageState extends State<HomePage> {
                 minChildSize: 0.32,
                 maxChildSize: 0.9,
                 builder:(context, scrollController) =>
-                 SingleChildScrollView(
-                  controller: scrollController,
-                  child: Center(
-                    child: ElevatedButton(
-                      child: const Text("close"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ),
+                 PlaceInfo(scrollController: scrollController, placeImages: marker["images"],)
               );
             }
           );
