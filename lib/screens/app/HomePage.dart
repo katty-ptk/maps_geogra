@@ -24,11 +24,11 @@ class _HomePageState extends State<HomePage> {
       "lat": 45.7411191,
       "lng": 21.1815705,
       "images": [
-        'https://photographylife.com/wp-content/uploads/2017/01/What-is-landscape-photography.jpg',
-        'https://wallpaperaccess.com/full/112722.jpg',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqtsLWLiM91PPGRc_VZl92ciVVZ9UsYfuGSA&usqp=CAU',
-        'https://img.cdn-pictorem.com/uploads/collection/G/GC7DLF7KTE/900_fabartdesigns_198.jpg',
-        'https://upload.wikimedia.org/wikipedia/commons/2/21/Adams_The_Tetons_and_the_Snake_River.jpg'
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEQwYU9O1PD6BtRggwLGfnTRfGKH3Y0Ilg3Q&usqp=CAU',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs15WUyz7trE3T6Ce9KizPAgWGTMiOh9pDZQ&usqp=CAU',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9YzeI0shLX5GnP7XnQwP_-oBUgnkJ_c8itw&usqp=CAU',
+        'https://thumbs.dreamstime.com/b/holy-trinity-cathedral-sameba-tbilisi-night-georgia-holy-trinity-cathedral-sameba-tbilisi-night-georgia-124204445.jpg',
+        'https://live.staticflickr.com/5150/5641331585_b246b31e42_z.jpg'
       ]
     },
 
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(46.4298523, 21.8240082),
-    zoom: 10,
+    zoom: 6,
   );  
 
   @override
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
             isScrollControlled: true,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
-                top: Radius.circular(30)
+                top: Radius.circular(15)
               )
             ),
             builder: (BuildContext context ) {
@@ -80,7 +80,11 @@ class _HomePageState extends State<HomePage> {
                 minChildSize: 0.32,
                 maxChildSize: 0.9,
                 builder:(context, scrollController) =>
-                 PlaceInfo(scrollController: scrollController, placeImages: marker["images"],)
+                 PlaceInfo(
+                  scrollController: scrollController, 
+                  placeTitle: marker["title"].toString(), 
+                  placeImages: marker["images"],
+                 )
               );
             }
           );
@@ -93,7 +97,7 @@ class _HomePageState extends State<HomePage> {
       bearing: 192.8334901395799,
       target: LatLng(37.43296265331129, -122.08832357078792),
       tilt: 59.440717697143555,
-      zoom: 19.151926040649414
+      zoom: 17.151926040649414
   );
 
   @override
