@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maps_geogra/utils/extentions.dart';
 
 class IntroPage3 extends StatelessWidget {
   const IntroPage3({super.key});
@@ -6,7 +7,7 @@ class IntroPage3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blueGrey,
+      color: HexColor("#8FB18F"),
       child: Padding(
         padding: const EdgeInsets.all(32),
         child: Column(
@@ -14,16 +15,20 @@ class IntroPage3 extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15),
-              child: Image.network("https://www.scusd.edu/sites/main/files/imagecache/tile/main-images/camera_lense_0.jpeg")
+              child: const Image(
+                image: AssetImage('assets/images/presentation/3.png'),
+                width: 250,
+              ),            
             ),
 
             const SizedBox(height: 60,),
 
             const Text(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+              "Click on the place's mark to reveal fascinating information about the location.",
               style: TextStyle(
-                fontSize: 24,
-                // fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
                 // fontFamily: "Inter-Bold"
               ),
             )   

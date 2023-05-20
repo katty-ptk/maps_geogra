@@ -73,6 +73,9 @@ flutter:
   assets:
     - assets/images/custom_marker_questionmark.png
     - assets/images/maps_geogra_transparent.png
+    - assets/images/presentation/1.png
+    - assets/images/presentation/2.png
+    - assets/images/presentation/3.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -37,7 +37,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
           ),
 
           Container(
-            alignment: const Alignment(0, 0.8),
+            alignment: const Alignment(0, 0.9),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -58,8 +58,8 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     radius: 5,
                     dotWidth: 10,
                     dotHeight: 10,
-                    dotColor: Colors.blue,
-                    activeDotColor: Colors.grey
+                    dotColor: Colors.white,
+                    activeDotColor: Colors.black
                   ),
                 ),
 
