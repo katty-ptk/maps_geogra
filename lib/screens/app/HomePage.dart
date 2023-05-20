@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
         'https://www.planetware.com/wpimages/2020/01/iceland-in-pictures-beautiful-places-to-photograph-icelandic-countryside.jpg',
         'https://www.tripsavvy.com/thmb/Fi6L1P-bgRmk8rm17bhev3XF9no=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/northern-lights-at-mount-kirkjufell--iceland-1045987138-3f37999a3b8944999b0c3520ce83bd6c.jpg',
         'https://www.ourescapeclause.com/wp-content/uploads/2021/12/Iceland_Snaefellsnes-347.jpg'
-      ]
+      ],
     }
   ];
 

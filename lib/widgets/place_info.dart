@@ -125,7 +125,8 @@ class PlaceInfo extends StatelessWidget {
       case "Economy":
         // purple
         title_color = HexColor("#800020");
-        icon_url = "https://uxwing.com/wp-content/themes/uxwing/download/banking-finance/economy-grow-icon.png";
+       // icon_url = "https://uxwing.com/wp-content/themes/uxwing/download/banking-finance/economy-grow-icon.png";
+        icon_url = "https://icon-library.com/images/economy-icon/economy-icon-12.jpg";
         break;
 
       case "Borders":
