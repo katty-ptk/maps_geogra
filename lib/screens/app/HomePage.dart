@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_geogra/widgets/place_info.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,13 +22,41 @@ class _HomePageState extends State<HomePage> {
     {
       "title": "Timisoara", 
       "lat": 45.7411191,
-      "lng": 21.1815705
+      "lng": 21.1815705,
     },
 
     {
-      "title": "Bucuresti", 
-      "lat": 44.4379269,
-      "lng": 26.0245983
+      "title": "Asia",
+      "lat": 34.895055,
+      "lng": 103.098987,
+      "images": [
+        'https://images.lifestyleasia.com/wp-content/uploads/sites/6/2022/09/02114323/GettyImages-654557138.jpg',
+        'https://cdn.statically.io/img/rawmalroams.com/wp-content/uploads/2020/08/63F1820F-BC01-4AA8-B3CD-824F2E8E2DA7-1024x570.jpeg?quality=80&f=auto',
+        'https://i.pinimg.com/736x/91/aa/1f/91aa1f9c25b79943bc65a4d0d44739c3.jpg',
+        'https://travelmelodies.com/wp-content/uploads/2020/05/travel-melodies-bali-handara-gate-best-places-to-visit-in-asia.jpg'
+      ]
+    },
+
+    {
+      "title": "Greenland",
+      "lat": 76.214944,
+      "lng": -44.955107,
+      "images": [
+        'https://travellersworldwide.com/wp-content/uploads/2022/12/Shutterstock_2176107763.jpg.webp',
+        'https://tasermiutgreenland.com/wp-content/uploads/2020/01/greenland-wonders-qaleraliq-1.jpg',
+        'https://storage.googleapis.com/oceanwide_web/media-dynamic/cache/widen_1600/media/default/0001/02/ff3266f646ee033159e28ac15d2d160e0974da8b.jpeg'
+      ]
+    },
+
+    {
+      "title": "Iceland",
+      "lat": 64.683899,
+      "lng": -18.828899,
+      "images": [
+        'https://www.planetware.com/wpimages/2020/01/iceland-in-pictures-beautiful-places-to-photograph-icelandic-countryside.jpg',
+        'https://www.tripsavvy.com/thmb/Fi6L1P-bgRmk8rm17bhev3XF9no=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/northern-lights-at-mount-kirkjufell--iceland-1045987138-3f37999a3b8944999b0c3520ce83bd6c.jpg',
+        'https://www.ourescapeclause.com/wp-content/uploads/2021/12/Iceland_Snaefellsnes-347.jpg'
+      ],
     }
   ];
 
@@ -36,7 +65,7 @@ class _HomePageState extends State<HomePage> {
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(46.4298523, 21.8240082),
-    zoom: 10,
+    zoom: 0,
   );  
 
   @override
@@ -62,7 +91,7 @@ class _HomePageState extends State<HomePage> {
             isScrollControlled: true,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
-                top: Radius.circular(30)
+                top: Radius.circular(15)
               )
             ),
             builder: (BuildContext context ) {
@@ -72,17 +101,11 @@ class _HomePageState extends State<HomePage> {
                 minChildSize: 0.32,
                 maxChildSize: 0.9,
                 builder:(context, scrollController) =>
-                 SingleChildScrollView(
-                  controller: scrollController,
-                  child: Center(
-                    child: ElevatedButton(
-                      child: const Text("close"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ),
+                 PlaceInfo(
+                  scrollController: scrollController, 
+                  placeTitle: marker["title"].toString(), 
+                  placeImages: marker["images"],
+                 )
               );
             }
           );
@@ -95,7 +118,7 @@ class _HomePageState extends State<HomePage> {
       bearing: 192.8334901395799,
       target: LatLng(37.43296265331129, -122.08832357078792),
       tilt: 59.440717697143555,
-      zoom: 19.151926040649414
+      zoom: 17.151926040649414
   );
 
   @override
