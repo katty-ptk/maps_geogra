@@ -21,12 +21,14 @@ class _HomePageState extends State<HomePage> {
   final customMarkers = [
     {
       "title": "Timisoara", 
+      "snippet": "Transylvania: folklore & beautiful landscapes.",
       "lat": 45.7411191,
       "lng": 21.1815705,
     },
 
     {
       "title": "Asia",
+      "snippet": "Great Wall of China, Wonder of the World.",
       "lat": 34.895055,
       "lng": 103.098987,
       "images": [
@@ -39,6 +41,7 @@ class _HomePageState extends State<HomePage> {
 
     {
       "title": "Greenland",
+      "snippet": "Nature paradise: hiking, dog sledding, Northern Lights.",
       "lat": 76.214944,
       "lng": -44.955107,
       "images": [
@@ -50,6 +53,7 @@ class _HomePageState extends State<HomePage> {
 
     {
       "title": "Iceland",
+      "snippet": "No mosquitoes here.",
       "lat": 64.683899,
       "lng": -18.828899,
       "images": [
@@ -80,7 +84,7 @@ class _HomePageState extends State<HomePage> {
         markerId: MarkerId("_${marker["title"]}kGooglrrePlex"),
         infoWindow: InfoWindow(
           title: marker["title"].toString(),
-          snippet: "this is a snippet"
+          snippet: marker["snippet"].toString()
         ),
         // icon: BitmapDescriptor.fromBytes(customMarker, size: const Size(3, 3)),
         icon: BitmapDescriptor.defaultMarker,

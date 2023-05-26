@@ -41,7 +41,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: ^0.12.0
   google_fonts: ^4.0.3
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,6 +73,9 @@ flutter:
   assets:
     - assets/images/custom_marker_questionmark.png
     - assets/images/maps_geogra_transparent.png
+    - assets/images/presentation/1.png
+    - assets/images/presentation/2.png
+    - assets/images/presentation/3.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

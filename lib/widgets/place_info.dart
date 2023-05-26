@@ -1,27 +1,30 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:maps_geogra/utils/extentions.dart';
 
-
 class PlaceInfo extends StatelessWidget {
   late BuildContext context;
   late ScrollController scrollController; 
-  // ignore: non_constant_identifier_names, prefer_typing_uninitialized_variables
+  // ignore: prefer_typing_uninitialized_variables
   late String placeTitle = "";
+
+  // ignore: prefer_typing_uninitialized_variables
   late var placeImages;
 
   PlaceInfo({super.key, required this.scrollController, required this.placeTitle, required this.placeImages});
 
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView (
       controller: scrollController,
           child: Column(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // ignore: sized_box_for_whitespace
               Container(
                 width: double.infinity,
                 child: CarouselSlider.builder(
