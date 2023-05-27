@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maps_geogra/screens/start/introduction.screen.dart';
 
-import 'package:maps_geogra/utils/mongodb.dart';
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await MongoDatabase.connect();
+void main() {
   runApp(const MyApp());
 }
 
