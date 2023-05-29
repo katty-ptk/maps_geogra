@@ -3,7 +3,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maps_geogra/screens/app/NewScreen.dart';
+import 'package:maps_geogra/utils/navigation.utils.dart';
+import 'package:maps_geogra/utils/routes.utils.dart';
 import 'package:maps_geogra/widgets/place_info.dart';
 
 class HomePage extends StatefulWidget {
@@ -119,13 +120,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 17.151926040649414
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,42 +136,26 @@ class _HomePageState extends State<HomePage> {
         ),
 
         Positioned(
-          top: 30,
+          top: 50,
           right: 10,
           child: TextButton(
-            onPressed: () { 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: ( context ) {
-                      return const NewPlaceScreen();
-                    }
-                  )
-                );
-              print("pressed on button");
-            }, 
-
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange),
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)))
-            ),
-            
-            child: const Text(
-              "+",
-              style: TextStyle(
-                fontSize: 32,
+              onPressed: () => NavigationUtil().navigateTo(context, Routes().NEW_PLACE_SCREEN), 
+          
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.indigoAccent),
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)))
               ),
-            )
+              
+              child: const Text(
+                "+",
+                style: TextStyle(
+                  fontSize: 32,
+                ),
+              )
+            ),
           ),
-        )
       ]),
     );
-  }
-
-  // ignore: unused_element
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 }
