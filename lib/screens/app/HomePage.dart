@@ -7,6 +7,9 @@ import 'package:maps_geogra/utils/navigation.utils.dart';
 import 'package:maps_geogra/utils/routes.utils.dart';
 import 'package:maps_geogra/widgets/place_info.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -19,6 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   // ignore: prefer_collection_literals
   Set<Marker> markers = Set();
+  List<dynamic> fetchedPlaces = <dynamic>[];
 
   final customMarkers = [
     {
@@ -76,12 +80,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    addMarkers();
+    //fetchPlaces();
+    //addMarkers([]);
     super.initState();
   }
 
-  addMarkers() {
-    for (var marker in customMarkers) {
+  Future<dynamic> fetchPlaces() async {
+    var response = await http.get(Uri.parse("http://10.0.2.2:3000/places"));
+    var decodedResponse = json.decode(response.body.toString());
+
+    return decodedResponse;
+  }
+
+  addMarkers(List<dynamic> markersToAdd) {
+    for (var marker in markersToAdd) {
       markers.add(Marker(
         markerId: MarkerId("_${marker["title"]}kGooglrrePlex"),
         infoWindow: InfoWindow(
@@ -90,7 +102,7 @@ class _HomePageState extends State<HomePage> {
         ),
         // icon: BitmapDescriptor.fromBytes(customMarker, size: const Size(3, 3)),
         icon: BitmapDescriptor.defaultMarker,
-        position: LatLng(marker["lat"] as double, marker["lng"] as double),
+        position: LatLng( double.parse(marker["lat"]), double.parse(marker["lng"])),
         onTap: () {
           showModalBottomSheet(
             context: context, 
@@ -111,6 +123,11 @@ class _HomePageState extends State<HomePage> {
                   scrollController: scrollController, 
                   placeTitle: marker["title"].toString(), 
                   placeImages: marker["images"],
+                  climate: marker["climate"],
+                  nature: marker["nature"],
+                  tourism: marker["tourism"],
+                  economy: marker["economy"],
+                  borders: marker["borders"],
                  )
               );
             }
@@ -122,6 +139,25 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: fetchPlaces(),
+      builder: (context, snapshot) {
+        if ( snapshot.connectionState == ConnectionState.waiting ){
+          return const Center(child: CircularProgressIndicator());
+        } else if ( snapshot.hasData ) {
+
+          List<dynamic> data = snapshot.data;
+          addMarkers(data);
+
+          return buildMap();
+        }
+
+        return Container();
+      },
+    );
+  }
+
+  Widget buildMap() {
     return Scaffold(
       body: Stack(
         children: [ 
@@ -157,5 +193,5 @@ class _HomePageState extends State<HomePage> {
           ),
       ]),
     );
-  }
+   }
 }

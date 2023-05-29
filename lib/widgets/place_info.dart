@@ -9,12 +9,22 @@ class PlaceInfo extends StatelessWidget {
   late BuildContext context;
   late ScrollController scrollController; 
   // ignore: prefer_typing_uninitialized_variables
-  late String placeTitle = "";
+  late String placeTitle = "", climate = "", nature = "", tourism = "", economy = "", borders = "";
 
   // ignore: prefer_typing_uninitialized_variables
   late var placeImages;
 
-  PlaceInfo({super.key, required this.scrollController, required this.placeTitle, required this.placeImages});
+  PlaceInfo({
+    super.key, 
+    required this.scrollController,
+    required this.placeTitle, 
+    required this.placeImages,
+    required this.climate,
+    required this.nature,
+    required this.tourism,
+    required this.economy,
+    required this.borders
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +38,11 @@ class PlaceInfo extends StatelessWidget {
               Container(
                 width: double.infinity,
                 child: CarouselSlider.builder(
-                  itemCount: placeImages != null ? placeImages.length : 1, 
+                  itemCount: (placeImages != null && placeImages != [] ) ? placeImages.length : 1, 
                   options: CarouselOptions(height: 200),
                   itemBuilder: ( (context, index, realIndex) {
 
-                    if ( placeImages == null ) {
+                    if ( placeImages == null || placeImages == [] ) {
                       return const Center(child: Text("no images for this place :/"));
                     }
 
@@ -50,31 +60,31 @@ class PlaceInfo extends StatelessWidget {
               buildInfoBody(
                 context,
                 "Climate", 
-                "The Southern sections of Asia are mild to hot, while far northeastern areas such as Siberia are very cold, and East Asia has a temperate climate."
+                climate
               ),
 
               buildInfoBody(
                 context,
                 "Nature", 
-                "Asia can be divided into five major physical regions: mountain systems, plateaus, plains, steppes, and deserts; freshwater environments, and saltwater environments."
+                nature
               ),
 
               buildInfoBody(
                 context,
                 "Tourism", 
-                "From lip smacking spicy curries that will wake you up to the comfort of hot, bite-sized momos, Asia will fill not just your stomach, but your heart too."
+                tourism
               ),
 
               buildInfoBody(
                 context,
                 "Economy", 
-                "The continent contains one of the world’s most economically developed countries, Japan, and several that are impoverished, such as Afghanistan, Cambodia, and Nepal."
+                economy
               ),
 
               buildInfoBody(
                 context,
                 "Borders", 
-                "Asia is bounded by the Arctic Ocean to the north, the Pacific Ocean to the east, the Indian Ocean to the south, the Red Sea to the southwest, and Europe to the west."
+                borders
               ),
 
               ElevatedButton(
