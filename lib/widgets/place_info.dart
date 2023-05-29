@@ -8,7 +8,6 @@ import 'package:maps_geogra/utils/extentions.dart';
 class PlaceInfo extends StatelessWidget {
   late BuildContext context;
   late ScrollController scrollController; 
-  // ignore: prefer_typing_uninitialized_variables
   late String placeTitle = "", climate = "", nature = "", tourism = "", economy = "", borders = "";
 
   // ignore: prefer_typing_uninitialized_variables
@@ -32,10 +31,8 @@ class PlaceInfo extends StatelessWidget {
     return SingleChildScrollView (
       controller: scrollController,
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ignore: sized_box_for_whitespace
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: CarouselSlider.builder(
                   itemCount: (placeImages != null && placeImages != [] ) ? placeImages.length : 1, 
@@ -119,6 +116,7 @@ class PlaceInfo extends StatelessWidget {
 
     switch ( infoTitle ) {
       case "Climate":
+        // blue
         title_color = HexColor("#6495ED");
         icon_url = "https://cdn-icons-png.flaticon.com/512/5367/5367835.png";
         break;
@@ -138,7 +136,6 @@ class PlaceInfo extends StatelessWidget {
       case "Economy":
         // purple
         title_color = HexColor("#800020");
-       // icon_url = "https://uxwing.com/wp-content/themes/uxwing/download/banking-finance/economy-grow-icon.png";
         icon_url = "https://icon-library.com/images/economy-icon/economy-icon-12.jpg";
         break;
 
