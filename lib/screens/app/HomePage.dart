@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_geogra/screens/app/NewScreen.dart';
 import 'package:maps_geogra/widgets/place_info.dart';
 
 class HomePage extends StatefulWidget {
@@ -128,15 +129,49 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: _kGooglePlex,
-        markers: markers,
-        onMapCreated: (GoogleMapController controller) {
-          mapController = controller;
-          _controller.complete(controller);
-        },
-      ),
+      body: Stack(
+        children: [ 
+          GoogleMap(
+          mapType: MapType.normal,
+          initialCameraPosition: _kGooglePlex,
+          markers: markers,
+          onMapCreated: (GoogleMapController controller) {
+            mapController = controller;
+            _controller.complete(controller);
+          },
+        ),
+
+        Positioned(
+          top: 30,
+          right: 10,
+          child: TextButton(
+            onPressed: () { 
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: ( context ) {
+                      return const NewPlaceScreen();
+                    }
+                  )
+                );
+              print("pressed on button");
+            }, 
+
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.deepOrange),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)))
+            ),
+            
+            child: const Text(
+              "+",
+              style: TextStyle(
+                fontSize: 32,
+              ),
+            )
+          ),
+        )
+      ]),
     );
   }
 
