@@ -10,55 +10,67 @@ class NewPlaceScreen extends StatefulWidget {
 }
 
 class _NewPlaceScreenState extends State<NewPlaceScreen> {
-  final formKey = GlobalKey<FormState>();
+  int _currentStep = 0;
+  StepperType stepperType = StepperType.vertical;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: Form(
-          key: formKey,
-          child: ListView(
-            padding: const EdgeInsets.all(32),
-            children: [
-              buildTitle(),
-              const SizedBox(height: 24,),
-        
-              buildSubmitButton()
-            ],
+      body: Stepper(
+        type: stepperType,
+        physics: const ScrollPhysics(),
+        currentStep: _currentStep,
+        onStepTapped: (step) => tapped(step),
+        onStepContinue: continued,
+        onStepCancel: cancel,
+        steps: [
+          Step(
+            title: const Text("stepul 1"),
+            content: Column(
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(labelText: 'Email Address'),
+                ),
+
+                TextFormField(
+                  decoration: const InputDecoration(labelText: 'Password'),
+                ),
+              ],
+            ),
+            isActive: _currentStep == 0,
           ),
-        ),
+
+          Step(
+            title: const Text("steul 222"),
+            content: Container(),
+            isActive: _currentStep == 1,
+          ),
+
+          Step(
+            title: const Text("steul 3"),
+            content: Container(),
+            isActive: _currentStep == 2,
+          ),
+
+        ],
+
       )
     );
   }
 
-  Widget buildTitle() {
-    return
-      TextFormField(
-        decoration: const InputDecoration(
-          labelText: 'Name of place',
-          border: OutlineInputBorder()          
-        ),
-
-        onSaved: (newValue) => print("Value of title field: $newValue"),
-      );
+  tapped(int step){
+    setState(() => _currentStep = step);
   }
 
-  Widget buildSubmitButton() {
-    return 
-      TextButton(
-        onPressed: () {
-          print("pressed submit!");
-        },
-
-        style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-        ),
-
-        child: const Text(
-          "Submit",
-        ),
-    );
+  continued(){
+    _currentStep < 2 ?
+        setState(() => _currentStep += 1): null;
   }
+
+  cancel(){
+    _currentStep > 0 ?
+        setState(() => _currentStep -= 1) : null;
+  }
+
 }
