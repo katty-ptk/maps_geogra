@@ -14,7 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Inter',),
+      // theme: ThemeData(fontFamily: 'Inter', textTheme: Theme.of(context).textTheme.apply(
+      //   bodyColor: Colors.green,
+      //   displayColor: Colors.pinkAccent
+      // )),
       initialRoute: '/',
       routes: {
         '/': (context) => const IntroductionScreen(),
