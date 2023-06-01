@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
+import 'package:maps_geogra/utils/navigation.utils.dart';
 import 'package:maps_geogra/utils/paths.utils.dart';
+import 'package:maps_geogra/utils/routes.utils.dart';
 
 class NewPlaceScreen extends StatefulWidget {
   const NewPlaceScreen({super.key});
@@ -27,6 +29,8 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
   final _latitudeController = TextEditingController();
   final _longitudeController = TextEditingController();
 
+  bool _uploadedImages = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +42,6 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
       body: Theme(
         data: ThemeData(
           colorScheme: const ColorScheme.light(
-          //  primary: Color.fromARGB(255, 23, 90, 25)
             primary: Colors.indigo
           )
         ),
@@ -51,6 +54,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
             onStepCancel: cancel,
             steps: [
               buildTitle(),
+              buildImages(),
               buildLAT(),
               buildLNG(),
               buildClimate(),
@@ -80,11 +84,32 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
       );
   }
 
+  Step buildImages() {
+    return Step(
+      title: const Text("Upload Images"),
+      isActive: _currentStep == 1,
+      content: !_uploadedImages ?
+        TextButton(
+          onPressed: () {
+            setState(() {
+           //   _uploadedImages = true;
+            });
+            NavigationUtil().navigateTo(context, Routes().SEARCH_IMAGE_SCREEN);
+          }, 
+          child: const Text(
+            "upload"
+          )
+        )
+        :
+        TextFormField()
+    );
+  }
+
   Step buildLAT() {
     return 
       Step(
         title: const Text("Latitude"),
-        isActive: _currentStep == 1,
+        isActive: _currentStep == 2,
         content: TextFormField(
           controller: _latitudeController,
           keyboardType: TextInputType.number,
@@ -100,7 +125,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Longitude"),
-        isActive: _currentStep == 2,
+        isActive: _currentStep == 3,
         content: TextFormField(
           controller: _longitudeController,
           keyboardType: TextInputType.number,
@@ -116,7 +141,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Climate"),
-        isActive: _currentStep == 3,
+        isActive: _currentStep == 4,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -144,7 +169,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Nature"),
-        isActive: _currentStep == 4,
+        isActive: _currentStep == 5,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -172,7 +197,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Tourism"),
-        isActive: _currentStep == 5,
+        isActive: _currentStep == 6,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -200,7 +225,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Economy"),
-        isActive: _currentStep == 6,
+        isActive: _currentStep == 7,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -228,7 +253,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Borders"),
-        isActive: _currentStep == 7,
+        isActive: _currentStep == 8,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -257,7 +282,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
   }
 
   continued() async {
-    if ( _currentStep < 7 ) {
+    if ( _currentStep < 8 ) {
       setState(() {
         _currentStep += 1;
       });
