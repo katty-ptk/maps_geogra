@@ -1,10 +1,12 @@
-// ignore_for_file: file_names, avoid_print
+// ignore_for_file: file_names, avoid_print, use_build_context_synchronously
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
+import 'package:maps_geogra/utils/navigation.utils.dart';
 import 'package:maps_geogra/utils/paths.utils.dart';
+import 'package:maps_geogra/utils/routes.utils.dart';
 
 class NewPlaceScreen extends StatefulWidget {
   const NewPlaceScreen({super.key});
@@ -26,8 +28,6 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
   final _bordersController = TextEditingController();
   final _latitudeController = TextEditingController();
   final _longitudeController = TextEditingController();
-
-  final bool _uploadedImages = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,6 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
             onStepCancel: cancel,
             steps: [
               buildTitle(),
-              buildImages(),
               buildLAT(),
               buildLNG(),
               buildClimate(),
@@ -82,31 +81,11 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
       );
   }
 
-  Step buildImages() {
-    return Step(
-      title: const Text("Upload Images"),
-      isActive: _currentStep == 1,
-      content: !_uploadedImages ?
-        TextButton(
-          onPressed: () {
-            setState(() {
-           //   _uploadedImages = true;
-            });
-          }, 
-          child: const Text(
-            "upload"
-          )
-        )
-        :
-        TextFormField()
-    );
-  }
-
   Step buildLAT() {
     return 
       Step(
         title: const Text("Latitude"),
-        isActive: _currentStep == 2,
+        isActive: _currentStep == 1,
         content: TextFormField(
           controller: _latitudeController,
           keyboardType: TextInputType.number,
@@ -122,7 +101,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Longitude"),
-        isActive: _currentStep == 3,
+        isActive: _currentStep == 2,
         content: TextFormField(
           controller: _longitudeController,
           keyboardType: TextInputType.number,
@@ -138,7 +117,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Climate"),
-        isActive: _currentStep == 4,
+        isActive: _currentStep == 3,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -166,7 +145,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Nature"),
-        isActive: _currentStep == 5,
+        isActive: _currentStep == 4,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -194,7 +173,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Tourism"),
-        isActive: _currentStep == 6,
+        isActive: _currentStep == 5,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -222,7 +201,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Economy"),
-        isActive: _currentStep == 7,
+        isActive: _currentStep == 6,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -250,7 +229,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     return 
       Step(
         title: const Text("Borders"),
-        isActive: _currentStep == 8,
+        isActive: _currentStep == 7,
         content: Column(
           children: [
             const SizedBox(height: 5,),
@@ -278,31 +257,109 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
     setState(() => _currentStep = step);
   }
 
+  String checkEmptyField() {
+
+    if ( _nameController.text == "" ) {
+      return "Place's Name";
+    }
+
+    if ( _latitudeController.text == "" ){
+      return "LATITUDE";
+    }
+
+    if ( _longitudeController.text == "" ) {
+      return "LONGITUDE";
+    }
+
+    if ( _climateController.text == "" ){
+      return "CLIMATE";
+    }
+
+    if ( _natureController.text == "" ) {
+      return "NATURE";
+    }
+
+    if ( _tourismController.text == "" ) {
+      return "TOURISM";
+    }
+
+    if ( _economyController.text == "" ) {
+      return "ECONOMY";
+    }
+
+    if ( _bordersController.text == "" ) {
+      return "BORDERS";
+    }
+
+    return "";
+  }
+
   continued() async {
-    if ( _currentStep < 8 ) {
+    String emptyFields = checkEmptyField();
+
+    if ( _currentStep < 7 ) {
       setState(() {
         _currentStep += 1;
       });
     } else {
-      var data = {
-        "title": _nameController.text,
-        "lat": _latitudeController.text,
-        "lng": _longitudeController.text,
-        "climate": _climateController.text,
-        "nature": _natureController.text,
-        "tourism": _tourismController.text,
-        "economy": _economyController.text,
-        "borders": _bordersController.text
-      };
+      if ( emptyFields != "" ){
+          ScaffoldMessenger.of(context)
+            .showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.redAccent,
+                content: Text(
+                  "$emptyFields cannot be empty!",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold
+                  ),
+                )
+              )  
+            );
+        } else {
+          var data = {
+            "title": _nameController.text,
+            "lat": _latitudeController.text,
+            "lng": _longitudeController.text,
+            "climate": _climateController.text,
+            "nature": _natureController.text,
+            "tourism": _tourismController.text,
+            "economy": _economyController.text,
+            "borders": _bordersController.text
+          };
 
-      http.Response response = await http.post(
-        Uri.parse(Paths().BASE_URL + Paths().ALL_PLACES),
-        headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(data)
-      );
-      print(response.body);
+          http.Response response = await http.post(
+            Uri.parse(Paths().BASE_URL + Paths().ALL_PLACES),
+            headers: <String, String>{
+                  'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(data)
+          );
+          print(response.body);
+
+          ScaffoldMessenger.of(context)
+            .showSnackBar(
+              const SnackBar(
+                backgroundColor: Colors.lightGreen,
+                content: Text(
+                  "successfully added",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold
+                  ),
+                )
+              )  
+            );
+
+            print("this is before delay");
+
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              NavigationUtil().navigateTo(context, Routes().HOME_SCREEN);
+            });
+        }
+
     }
   }
 
