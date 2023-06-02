@@ -4,9 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-import 'package:maps_geogra/utils/navigation.utils.dart';
 import 'package:maps_geogra/utils/paths.utils.dart';
-import 'package:maps_geogra/utils/routes.utils.dart';
 
 class NewPlaceScreen extends StatefulWidget {
   const NewPlaceScreen({super.key});
@@ -29,7 +27,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
   final _latitudeController = TextEditingController();
   final _longitudeController = TextEditingController();
 
-  bool _uploadedImages = false;
+  final bool _uploadedImages = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +92,6 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
             setState(() {
            //   _uploadedImages = true;
             });
-            NavigationUtil().navigateTo(context, Routes().SEARCH_IMAGE_SCREEN);
           }, 
           child: const Text(
             "upload"

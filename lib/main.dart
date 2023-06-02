@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maps_geogra/screens/app/Home.screen.dart';
 import 'package:maps_geogra/screens/app/NewPlace.screen.dart';
-import 'package:maps_geogra/screens/app/SearchImage.screen.dart';
 import 'package:maps_geogra/screens/start/introduction.screen.dart';
 
 void main() {
@@ -24,7 +23,6 @@ class MyApp extends StatelessWidget {
         '/': (context) => const IntroductionScreen(),
         '/home': (context) => const HomePage(),
         '/newPlace': (context) => const NewPlaceScreen(),
-        '/searchImage':(context) => const SearchImagePage()
       },
     );
   }
