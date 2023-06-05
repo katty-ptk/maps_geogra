@@ -124,6 +124,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
 
             TextFormField(
               controller: _climateController,
+              maxLines: 2,
               decoration: const InputDecoration(
                 labelText: "What is the climate of this place?",
                 hintText: "Give a short description of the climate.",
@@ -152,6 +153,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
 
             TextFormField(
               controller: _natureController,
+              maxLines: 2,
               decoration: const InputDecoration(
                 labelText: "What is the nature like?",
                 hintText: "Give a short description of the nature.",
@@ -180,6 +182,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
 
             TextFormField(
               controller: _tourismController,
+              maxLines: 2,
               decoration: const InputDecoration(
                 labelText: "What can you say about the tourism there?",
                 hintText: "Give a short description of the tourism.",
@@ -208,6 +211,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
 
             TextFormField(
               controller: _economyController,
+              maxLines: 2,
               decoration: const InputDecoration(
                 labelText: "What is the economy of this place?",
                 hintText: "Give a short description of the economy.",
@@ -236,6 +240,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
 
             TextFormField(
               controller: _bordersController,
+              maxLines: 2,
               decoration: const InputDecoration(
                 labelText: "What are the borders of this place?",
                 hintText: "Give a short description of the the borders.",
