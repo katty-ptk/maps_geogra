@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/extentions.dart';
+import '../../../utils/extentions.utils.dart';
 
 class IntroPage2 extends StatelessWidget {
   const IntroPage2({super.key});

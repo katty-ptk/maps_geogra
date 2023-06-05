@@ -8,7 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_geogra/utils/navigation.utils.dart';
 import 'package:maps_geogra/utils/api_paths.utils.dart';
 import 'package:maps_geogra/utils/routes.utils.dart';
-import 'package:maps_geogra/widgets/place_info.dart';
+import 'package:maps_geogra/widgets/place_info.widget.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';

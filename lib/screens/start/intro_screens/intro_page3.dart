@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maps_geogra/utils/extentions.dart';
+import 'package:maps_geogra/utils/extentions.utils.dart';
 
 class IntroPage3 extends StatelessWidget {
   const IntroPage3({super.key});
