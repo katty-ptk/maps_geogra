@@ -8,9 +8,15 @@ class Roles {
 
 class StateManager extends ChangeNotifier {
   String ROLE = "";
+  String USER_EMAIL = "";
 
   setRole(String role) {
     ROLE = role;
+    notifyListeners();
+  }
+
+  setUserEmail( String email ) {
+    USER_EMAIL = email;
     notifyListeners();
   }
 }

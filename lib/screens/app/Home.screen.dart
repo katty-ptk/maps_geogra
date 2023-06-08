@@ -57,7 +57,6 @@ class _HomePageState extends State<HomePage> {
           title: marker["title"].toString(),
           snippet: marker["snippet"].toString()
         ),
-        // icon: BitmapDescriptor.fromBytes(customMarker, size: const Size(3, 3)),
         icon: BitmapDescriptor.defaultMarker,
         position: LatLng( double.parse(marker["lat"]), double.parse(marker["lng"])),
         onTap: () {

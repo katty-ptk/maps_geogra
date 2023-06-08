@@ -19,9 +19,12 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   final PageController _controller = PageController();
   bool _onLastPage = false;
 
+  final TextEditingController _emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // page view
@@ -91,6 +94,28 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
     );
   }
 
+  Widget buildUserEmail() {
+    return 
+        TextFormField(
+          controller: _emailController,
+          decoration: InputDecoration(
+            labelText: "User Email",
+            hintText: "Fill if you are USER",
+            suffixIcon: GestureDetector(
+              onTap: () {
+                if ( _emailController.text != "" && _emailController.text.isNotEmpty && context.read<StateManager>().ROLE == Roles().USER) {
+                  context.read<StateManager>().setUserEmail(_emailController.text);
+                  NavigationUtil().navigateTo(context, Routes().HOME_SCREEN);  
+                } else {
+                  print("you need to enter an email");
+                }
+              },
+              child: const Icon(Icons.send)
+            )
+          ),
+        );
+  }
+
   void openDialog() {
     showDialog(
       context: context, 
@@ -127,11 +152,17 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               child: TextButton(
                 onPressed: () {
                   context.read<StateManager>().setRole(Roles().USER);
-
-                  NavigationUtil().navigateTo(context, Routes().HOME_SCREEN);
                 }, 
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.black87)
+                style: ButtonStyle(
+                  // backgroundColor: const MaterialStatePropertyAll(Colors.black87),
+                  backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                    (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed)) {
+                        return Colors.redAccent;
+                      } //<-- SEE HERE
+                      return Colors.green; // Defer to the widget's default.
+                    },
+                  ),
                 ),
                 child: const Text(
                   "User",
@@ -143,9 +174,12 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 )
               ),
             ),
+
+            buildUserEmail()
           ],
         ),
       )
     );
   }
+
 }

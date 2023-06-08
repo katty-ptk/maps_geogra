@@ -335,7 +335,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
           };
 
           http.Response response = await http.post(
-            Uri.parse(Paths().BASE_URL + Paths().ALL_PLACES),
+            Uri.parse(Paths().BASE_URL + Paths().PENDING_PLACES),
             headers: <String, String>{
                   'Content-Type': 'application/json; charset=UTF-8',
             },
