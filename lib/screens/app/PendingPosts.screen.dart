@@ -16,15 +16,6 @@ class PendingPlacesScreen extends StatefulWidget {
 }
 
 class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
-  String _userEmail = "";
-
-  @override
-  void initState() {
-    _userEmail = context.read<StateManager>().USER_EMAIL;
-
-    super.initState();
-  }
-
   Future<dynamic>  fetchPendingPlaces() async {
     var response = await http.get(Uri.parse(Paths().BASE_URL + Paths().PENDING_PLACES));
     var decodedResponse = json.decode(response.body.toString());
@@ -35,6 +26,10 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Places pending for Approval"),
+        backgroundColor: Colors.indigo,
+      ),
       body: FutureBuilder(
         future: fetchPendingPlaces(),
         builder: (context, snapshot) {
@@ -44,7 +39,17 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
 
             List<dynamic> data = snapshot.data;
 
-            return addCards(data);
+            return Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for ( var place in data ) 
+                      addCard(place["title"], place["senderEmail"])
+                  ]
+                ),
+              ),
+            );
           }
 
           return Container();
@@ -53,11 +58,11 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
     );
   }
 
-  Widget addCards( List<dynamic> places ) {
+  Widget addCard( String placeTitle, String placeSenderEmail ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Center(child: PendingPlaceCard()),
+      children: [
+        Center(child: PendingPlaceCard(title: placeTitle, senderEmail: placeSenderEmail))
       ],
     );
   }
