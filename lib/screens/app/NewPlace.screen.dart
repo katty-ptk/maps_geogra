@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:maps_geogra/utils/navigation.utils.dart';
-import 'package:maps_geogra/utils/paths.utils.dart';
+import 'package:maps_geogra/utils/api_paths.utils.dart';
 import 'package:maps_geogra/utils/routes.utils.dart';
 
 class NewPlaceScreen extends StatefulWidget {
@@ -335,7 +335,7 @@ class _NewPlaceScreenState extends State<NewPlaceScreen> {
           };
 
           http.Response response = await http.post(
-            Uri.parse(Paths().BASE_URL + Paths().ALL_PLACES),
+            Uri.parse(Paths().BASE_URL + Paths().PENDING_PLACES),
             headers: <String, String>{
                   'Content-Type': 'application/json; charset=UTF-8',
             },

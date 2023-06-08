@@ -2,11 +2,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:maps_geogra/utils/state_manager.utils.dart';
+import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_geogra/utils/navigation.utils.dart';
-import 'package:maps_geogra/utils/paths.utils.dart';
+import 'package:maps_geogra/utils/api_paths.utils.dart';
 import 'package:maps_geogra/utils/routes.utils.dart';
-import 'package:maps_geogra/widgets/place_info.dart';
+import 'package:maps_geogra/widgets/place_info.widget.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -26,12 +28,21 @@ class _HomePageState extends State<HomePage> {
 
   final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
 
+  String userRole = "";
+
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(46.4298523, 21.8240082),
     zoom: 0,
   );  
 
+  Future<String> fetchRole() async {
+    return context.read<StateManager>().ROLE;
+  }
+
   Future<dynamic> fetchPlaces() async {
+    // set user role
+    userRole = await fetchRole();
+
     var response = await http.get(Uri.parse(Paths().BASE_URL + Paths().ALL_PLACES));
     var decodedResponse = json.decode(response.body.toString());
 
@@ -46,7 +57,6 @@ class _HomePageState extends State<HomePage> {
           title: marker["title"].toString(),
           snippet: marker["snippet"].toString()
         ),
-        // icon: BitmapDescriptor.fromBytes(customMarker, size: const Size(3, 3)),
         icon: BitmapDescriptor.defaultMarker,
         position: LatLng( double.parse(marker["lat"]), double.parse(marker["lng"])),
         onTap: () {
@@ -117,27 +127,61 @@ class _HomePageState extends State<HomePage> {
           },
         ),
 
-        Positioned(
-          top: 50,
-          right: 10,
-          child: TextButton(
-              onPressed: () => NavigationUtil().navigateTo(context, Routes().NEW_PLACE_SCREEN), 
-          
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.indigoAccent),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)))
-              ),
-              
-              child: const Text(
-                "+",
-                style: TextStyle(
-                  fontSize: 32,
-                ),
-              )
-            ),
-          ),
+
+        userRole == Roles().ADMIN ? buildPendingPostsButton() : const SizedBox(),
+        buildNewPlaceButton(),
+
       ]),
     );
    }
+
+   Widget buildNewPlaceButton() {
+    return
+      Positioned(
+        top: 50,
+        right: 10,
+        child: TextButton(
+            onPressed: () => NavigationUtil().navigateTo(context, Routes().NEW_PLACE_SCREEN), 
+          
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.indigoAccent),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)))
+            ),
+              
+            child: const Text(
+              "+",
+              style: TextStyle(
+                fontSize: 32,
+              ),
+            )
+        ),
+      );
+   }
+
+   Widget buildPendingPostsButton() {
+    return
+      Positioned(
+        top: 50,
+        left: 10,
+        child: TextButton(
+            onPressed: () => NavigationUtil().navigateTo(context, Routes().PENDING_PLACES_SCREEN), 
+          
+            style: ButtonStyle(
+              padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 15, vertical: 10)),
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))
+            ),
+              
+            child: const Text(
+              "See Pending Places",
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            )
+        ),
+      );
+   }
+
 }
