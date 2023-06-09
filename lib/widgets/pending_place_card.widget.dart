@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:maps_geogra/screens/app/RespondToPlace.screen.dart';
 
 class PendingPlaceCard extends StatefulWidget {
   final String title;
   final String senderEmail;
+  final String placeID;
 
-  const PendingPlaceCard({super.key, required this.title, required this.senderEmail});
+  const PendingPlaceCard({super.key, required this.placeID, required this.title, required this.senderEmail});
 
 
   @override
@@ -14,6 +16,16 @@ class PendingPlaceCard extends StatefulWidget {
 class _PendingPlaceCardState extends State<PendingPlaceCard> {
   @override
   Widget build(BuildContext context) {
+    return 
+      GestureDetector(
+        onTap: () {
+         Navigator.of(context).push(MaterialPageRoute(builder: (context) => RespondToPlaceScreen(plcaeID: widget.placeID)));
+        },
+        child: buildPlaceCard()
+      );
+  }
+
+  Widget buildPlaceCard() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
       child: Container(
@@ -35,17 +47,23 @@ class _PendingPlaceCardState extends State<PendingPlaceCard> {
                 children:  [
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(widget.title, style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold
-                    ),)
+                    child: Text(
+                      widget.title, 
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic
+                      ),
+                    )
                   ),
 
                   const SizedBox(height: 4,),
 
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("by: ${widget.senderEmail}")
+                    child: Text(
+                      "by: ${widget.senderEmail}",
+                    )
                   ),
                 ],
               ),

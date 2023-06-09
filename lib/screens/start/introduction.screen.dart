@@ -151,18 +151,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               child: TextButton(
                 onPressed: () {
                   context.read<StateManager>().setRole(Roles().USER);
-                }, 
-                style: ButtonStyle(
-                  // backgroundColor: MaterialStatePropertyAll(Colors.deepPurple[50]),
-                  // backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                  //   (Set<MaterialState> states) {
-                  //     if (states.contains(MaterialState.pressed)) {
-                  //       return Colors.redAccent;
-                  //     } //<-- SEE HERE
-                  //     return Colors.green; // Defer to the widget's default.
-                  //   },
-                  // ),
-                ),
+                },
                 child: const Text(
                   "User",
                   style: TextStyle(

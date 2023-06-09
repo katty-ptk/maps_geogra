@@ -1,11 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:maps_geogra/utils/state_manager.utils.dart';
 import 'package:maps_geogra/widgets/pending_place_card.widget.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-
 import '../../utils/api_paths.utils.dart';
 
 class PendingPlacesScreen extends StatefulWidget {
@@ -19,6 +16,8 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
   Future<dynamic>  fetchPendingPlaces() async {
     var response = await http.get(Uri.parse(Paths().BASE_URL + Paths().PENDING_PLACES));
     var decodedResponse = json.decode(response.body.toString());
+
+    // Map<String, dynamic> mapOfFirstElement = Map<String, dynamic>.from(decodedResponse[0]);
 
     return decodedResponse;
   }
@@ -45,7 +44,7 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     for ( var place in data ) 
-                      addCard(place["title"], place["senderEmail"])
+                      addCard(place["_id"], place["title"], place["senderEmail"])
                   ]
                 ),
               ),
@@ -58,11 +57,11 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
     );
   }
 
-  Widget addCard( String placeTitle, String placeSenderEmail ) {
+  Widget addCard( String placeID, String placeTitle, String placeSenderEmail ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Center(child: PendingPlaceCard(title: placeTitle, senderEmail: placeSenderEmail))
+        Center(child: PendingPlaceCard(placeID: placeID, title: placeTitle, senderEmail: placeSenderEmail))
       ],
     );
   }
