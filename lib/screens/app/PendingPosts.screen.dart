@@ -17,8 +17,6 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
     var response = await http.get(Uri.parse(Paths().BASE_URL + Paths().PENDING_PLACES));
     var decodedResponse = json.decode(response.body.toString());
 
-    // Map<String, dynamic> mapOfFirstElement = Map<String, dynamic>.from(decodedResponse[0]);
-
     return decodedResponse;
   }
 

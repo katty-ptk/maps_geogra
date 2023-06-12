@@ -18,9 +18,7 @@ class _PendingPlaceCardState extends State<PendingPlaceCard> {
   Widget build(BuildContext context) {
     return 
       GestureDetector(
-        onTap: () {
-         Navigator.of(context).push(MaterialPageRoute(builder: (context) => RespondToPlaceScreen(plcaeID: widget.placeID)));
-        },
+        onTap: () => navigateToRespond(),
         child: buildPlaceCard()
       );
   }
@@ -71,7 +69,7 @@ class _PendingPlaceCardState extends State<PendingPlaceCard> {
               Align(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  onPressed: () {}, 
+                  onPressed: () => navigateToRespond(), 
                   icon: const Icon(Icons.keyboard_arrow_right_rounded, size: 32,)
                 )
               )
@@ -80,5 +78,9 @@ class _PendingPlaceCardState extends State<PendingPlaceCard> {
         ),
       ),
     );
+  }
+
+  navigateToRespond() {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => RespondToPlaceScreen(plcaeID: widget.placeID)));
   }
 }
