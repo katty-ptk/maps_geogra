@@ -46,7 +46,7 @@ class _RespondToPlaceScreenState extends State<RespondToPlaceScreen> {
         future: fetchPlace(),
         builder: (context, snapshot) {
           if ( snapshot.connectionState == ConnectionState.waiting ){
-            return const CircularProgressIndicator();
+            return const SizedBox(width: double.infinity, height: double.infinity, child: Center(child: CircularProgressIndicator()));
           }
 
           return Padding(
