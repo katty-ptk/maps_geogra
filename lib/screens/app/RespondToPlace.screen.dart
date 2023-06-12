@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -6,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:maps_geogra/utils/api_paths.utils.dart';
 import 'package:maps_geogra/utils/extentions.utils.dart';
+
+import '../../utils/navigation.utils.dart';
+import '../../utils/routes.utils.dart';
 
 class RespondToPlaceScreen extends StatefulWidget {
   final String plcaeID;
@@ -179,8 +184,46 @@ class _RespondToPlaceScreenState extends State<RespondToPlaceScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
+              final approvedPost = await approvePost();
+              print("APPROVED POST: ${approvedPost}");
 
+              if ( approvedPost.toString()[0] == '{'){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text(
+                      "successfully approved post",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  )
+                );
+              
+                Future.delayed(const Duration(milliseconds: 1000), () {
+                  // Navigator.pop(context);
+                  NavigationUtil().navigateTo(context, Routes().PENDING_PLACES_SCREEN);
+                });
+
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(
+                      "cannot approve post",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  )
+                );
+                print("APPROVED POST: COULD NOT APPROVE DOCUMENT");
+              }
             },
 
            style: ButtonStyle(
@@ -199,8 +242,45 @@ class _RespondToPlaceScreenState extends State<RespondToPlaceScreen> {
           const SizedBox(width: 32,),
 
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
+              final deleted_post = await declinePost();
 
+              if ( deleted_post.toString()[0] == '{'){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    backgroundColor: Colors.green,
+                    content: Text(
+                      "successfully declined post",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  )
+                );
+              
+                Future.delayed(const Duration(milliseconds: 1000), () {
+                  // Navigator.pop(context);
+                  NavigationUtil().navigateTo(context, Routes().PENDING_PLACES_SCREEN);
+                });
+
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text(
+                      "cannot delete post",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  )
+                );
+                print("DELETED POST: COULD NOT DELETE DOCUMENT");
+              }
             },
 
            style: ButtonStyle(
@@ -217,6 +297,16 @@ class _RespondToPlaceScreenState extends State<RespondToPlaceScreen> {
           ),
         ],
       );
+  }
+
+  approvePost() async {
+    final approved_post = await http.post(Uri.parse("${Paths().BASE_URL}${Paths().PENDING_PLACES}/approve/${place["_id"]}"));
+    return approved_post.body;
+  }
+
+  declinePost() async {
+    final deleted_post = await http.delete(Uri.parse("${Paths().BASE_URL}${Paths().PENDING_PLACES}/${place["_id"]}"));
+    return deleted_post.body;
   }
 
 }

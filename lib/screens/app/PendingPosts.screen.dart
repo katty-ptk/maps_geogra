@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:maps_geogra/utils/navigation.utils.dart';
+import 'package:maps_geogra/utils/routes.utils.dart';
 import 'package:maps_geogra/widgets/pending_place_card.widget.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/api_paths.utils.dart';
@@ -25,6 +27,10 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Places pending for Approval"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () => NavigationUtil().navigateTo(context, Routes().HOME_SCREEN),
+        ),
         backgroundColor: Colors.indigo,
       ),
       body: FutureBuilder(
