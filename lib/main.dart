@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:maps_geogra/screens/app/Home.screen.dart';
 import 'package:maps_geogra/screens/app/NewPlace.screen.dart';
 import 'package:maps_geogra/screens/app/PendingPosts.screen.dart';
-import 'package:maps_geogra/screens/start/introduction.screen.dart';
+import 'package:maps_geogra/utils/DeciderScreen.utils.dart';
 import 'package:maps_geogra/utils/state_manager.utils.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          '/': (context) => const IntroductionScreen(),
+          '/': (context) => const DeciderSrceen(),
           '/home': (context) => const HomePage(),
           '/newPlace': (context) => const NewPlaceScreen(),
           '/pendingPlaces': (context) => const PendingPlacesScreen(),

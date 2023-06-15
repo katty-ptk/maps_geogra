@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:maps_geogra/utils/state_manager.utils.dart';
+import 'package:maps_geogra/utils/navigation.utils.dart';
+import 'package:maps_geogra/utils/routes.utils.dart';
 import 'package:maps_geogra/widgets/pending_place_card.widget.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-
 import '../../utils/api_paths.utils.dart';
 
 class PendingPlacesScreen extends StatefulWidget {
@@ -16,15 +15,6 @@ class PendingPlacesScreen extends StatefulWidget {
 }
 
 class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
-  String _userEmail = "";
-
-  @override
-  void initState() {
-    _userEmail = context.read<StateManager>().USER_EMAIL;
-
-    super.initState();
-  }
-
   Future<dynamic>  fetchPendingPlaces() async {
     var response = await http.get(Uri.parse(Paths().BASE_URL + Paths().PENDING_PLACES));
     var decodedResponse = json.decode(response.body.toString());
@@ -35,6 +25,14 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Places pending for Approval"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () => NavigationUtil().navigateTo(context, Routes().HOME_SCREEN),
+        ),
+        backgroundColor: Colors.indigo,
+      ),
       body: FutureBuilder(
         future: fetchPendingPlaces(),
         builder: (context, snapshot) {
@@ -44,7 +42,17 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
 
             List<dynamic> data = snapshot.data;
 
-            return addCards(data);
+            return Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for ( var place in data ) 
+                      addCard(place["_id"], place["title"], place["senderEmail"] ?? "katytest@gmail.com")
+                  ]
+                ),
+              ),
+            );
           }
 
           return Container();
@@ -53,11 +61,11 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
     );
   }
 
-  Widget addCards( List<dynamic> places ) {
+  Widget addCard( String placeID, String placeTitle, String placeSenderEmail ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Center(child: PendingPlaceCard()),
+      children: [
+        Center(child: PendingPlaceCard(placeID: placeID, title: placeTitle, senderEmail: placeSenderEmail))
       ],
     );
   }

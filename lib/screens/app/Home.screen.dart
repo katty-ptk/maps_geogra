@@ -2,8 +2,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:maps_geogra/utils/shared_preferences.utils.dart';
 import 'package:maps_geogra/utils/state_manager.utils.dart';
-import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_geogra/utils/navigation.utils.dart';
 import 'package:maps_geogra/utils/api_paths.utils.dart';
@@ -12,6 +12,8 @@ import 'package:maps_geogra/widgets/place_info.widget.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   );  
 
   Future<String> fetchRole() async {
-    return context.read<StateManager>().ROLE;
+    return await MySharedPreferences().isAdmin() ? Roles().ADMIN : Roles().USER;
   }
 
   Future<dynamic> fetchPlaces() async {
@@ -130,7 +132,7 @@ class _HomePageState extends State<HomePage> {
 
         userRole == Roles().ADMIN ? buildPendingPostsButton() : const SizedBox(),
         buildNewPlaceButton(),
-
+        buildClearSharedPreferences()
       ]),
     );
    }
@@ -182,6 +184,15 @@ class _HomePageState extends State<HomePage> {
             )
         ),
       );
+   }
+
+   clearPreferences() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+   }
+
+   Widget buildClearSharedPreferences() {
+      return IconButton(onPressed: () async => await clearPreferences(), icon: const Icon(Icons.clear_all_sharp));
    }
 
 }

@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:maps_geogra/utils/shared_preferences.utils.dart';
 import 'package:provider/provider.dart';
 import 'package:maps_geogra/screens/start/intro_screens/intro_page1.dart';
 import 'package:maps_geogra/screens/start/intro_screens/intro_page2.dart';
@@ -75,7 +78,6 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                     if ( _onLastPage ) {
                       // show popup dialog
                       openDialog();
-                    //  NavigationUtil().navigateTo(context, Routes().HOME_SCREEN);
                     } else {
                       _controller.nextPage(
                         duration: const Duration(milliseconds: 300), 
@@ -107,7 +109,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                   context.read<StateManager>().setUserEmail(_emailController.text);
                   NavigationUtil().navigateTo(context, Routes().HOME_SCREEN);  
                 } else {
-                  print("you need to enter an email");
+                 // TODO: announce that the user has to enter email 
                 }
               },
               child: const Icon(Icons.send)
@@ -128,8 +130,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             SizedBox(
               width: double.infinity,
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   context.read<StateManager>().setRole(Roles().ADMIN);
+
+                  await MySharedPreferences().setUserRole(Roles().ADMIN);
 
                   NavigationUtil().navigateTo(context, Routes().HOME_SCREEN);
                 }, 
@@ -150,24 +154,14 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             SizedBox(
               width: double.infinity,
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   context.read<StateManager>().setRole(Roles().USER);
-                }, 
-                style: ButtonStyle(
-                  // backgroundColor: const MaterialStatePropertyAll(Colors.black87),
-                  backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed)) {
-                        return Colors.redAccent;
-                      } //<-- SEE HERE
-                      return Colors.green; // Defer to the widget's default.
-                    },
-                  ),
-                ),
+                  await MySharedPreferences().setUserRole(Roles().USER);
+                },
                 child: const Text(
                   "User",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black87,
                     fontSize: 18,
                     fontWeight: FontWeight.bold
                   ),
