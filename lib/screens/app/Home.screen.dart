@@ -129,8 +129,20 @@ class _HomePageState extends State<HomePage> {
           },
         ),
 
+        Positioned(
+          top: 50,
+          left: 10,
+          child: Row(
+            children: [
+                const Icon(Icons.account_circle_rounded, size: 32,),
+                const SizedBox(width: 8),
+                userRole == Roles().ADMIN
+                  ? buildPendingPostsButton()
+                  : const SizedBox()
+            ],
+          ),
+        ),
 
-        userRole == Roles().ADMIN ? buildPendingPostsButton() : const SizedBox(),
         buildNewPlaceButton(),
         buildClearSharedPreferences()
       ]),
