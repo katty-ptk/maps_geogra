@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:maps_geogra/utils/shared_preferences.utils.dart';
 import 'package:provider/provider.dart';
 import 'package:maps_geogra/screens/start/intro_screens/intro_page1.dart';
 import 'package:maps_geogra/screens/start/intro_screens/intro_page2.dart';
@@ -127,8 +130,10 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             SizedBox(
               width: double.infinity,
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   context.read<StateManager>().setRole(Roles().ADMIN);
+
+                  await MySharedPreferences().setUserRole(Roles().ADMIN);
 
                   NavigationUtil().navigateTo(context, Routes().HOME_SCREEN);
                 }, 
@@ -149,8 +154,9 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             SizedBox(
               width: double.infinity,
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
                   context.read<StateManager>().setRole(Roles().USER);
+                  await MySharedPreferences().setUserRole(Roles().USER);
                 },
                 child: const Text(
                   "User",

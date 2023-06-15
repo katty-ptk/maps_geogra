@@ -48,7 +48,7 @@ class _PendingPlacesScreenState extends State<PendingPlacesScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     for ( var place in data ) 
-                      addCard(place["_id"], place["title"], place["senderEmail"])
+                      addCard(place["_id"], place["title"], place["senderEmail"] ?? "katytest@gmail.com")
                   ]
                 ),
               ),

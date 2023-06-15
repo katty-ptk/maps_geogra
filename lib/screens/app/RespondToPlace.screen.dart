@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
 import 'dart:convert';
 
@@ -186,7 +186,6 @@ class _RespondToPlaceScreenState extends State<RespondToPlaceScreen> {
           ElevatedButton(
             onPressed: () async {
               final approvedPost = await approvePost();
-              print("APPROVED POST: ${approvedPost}");
 
               if ( approvedPost.toString()[0] == '{'){
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -222,7 +221,6 @@ class _RespondToPlaceScreenState extends State<RespondToPlaceScreen> {
                     )
                   )
                 );
-                print("APPROVED POST: COULD NOT APPROVE DOCUMENT");
               }
             },
 
@@ -279,7 +277,6 @@ class _RespondToPlaceScreenState extends State<RespondToPlaceScreen> {
                     )
                   )
                 );
-                print("DELETED POST: COULD NOT DELETE DOCUMENT");
               }
             },
 
